@@ -26,13 +26,21 @@ app.post('/preview', async (req, res) => {
     if(!urls) {
         return res.status(400).send("No URL found in the text")
     }
-   
+    console.log("urls", urls)
+    try{
+        const data = await preview.getLinkPreview(urls[0], {
+            timeout: 50000
+        })
+        res.send(data)
+    }
 
-    const data = await preview.getLinkPreview(urls[0])
+    catch(e)
+    {
+        console.log("error", e)
+        res.status(500).send("Internal server error")
+    }
 
-    console.log("data", data)
-
-    res.send(data)
+ 
    
 })
 
